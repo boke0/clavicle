@@ -1,0 +1,25 @@
+{
+    "name": "boke0/clavicle",
+    "description": "PSR7のHTTPMessageインターフェースを実装したやつです。",
+    "type": "library",
+    "require": {
+        "psr/http-message": "^1.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^8.5"
+    },
+    "license": "GPL",
+    "authors": [
+        {
+            "name": "木瓜丸",
+            "email": "boke0@eugensite.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "autoload":{
+        "psr-4":{
+            "Boke0\\Clavicle\\":"src/",
+            "Boke0\\Clavicle\\Test":"test/"
+        }
+    }
+}
