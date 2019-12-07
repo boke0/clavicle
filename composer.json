@@ -3,10 +3,11 @@
     "description": "PSR7のHTTPMessageインターフェースを実装したやつです。",
     "type": "library",
     "require": {
-        "psr/http-message": "^1.0"
+        "psr/http-message": "^1.0",
+        "psr/http-factory": "^1.0"
     },
     "require-dev": {
-        "phpunit/phpunit": "^8.5"
+        "phpunit/phpunit": "^8.4"
     },
     "license": "GPL",
     "authors": [
@@ -19,7 +20,7 @@
     "autoload":{
         "psr-4":{
             "Boke0\\Clavicle\\":"src/",
-            "Boke0\\Clavicle\\Test":"test/"
+            "Boke0\\Clavicle\\Test\\":"test/"
         }
     }
 }

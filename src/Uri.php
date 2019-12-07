@@ -5,131 +5,82 @@ namespace Boke0\Clavicle;
 use \Psr\Http\Message;
 
 class Uri implements UriInterface{
-    public function __construct($uri){
-        $this->uri=parse_url($uri);
+    public function __construct($scheme,$host,$user,$port,$path,$query,$fragment){
+        $this->scheme=$scheme;
+        $this->host=$host;
+        $this->user=$user;
+        $this->port=$port;
+        $this->path=$path;
+        $this->query=$query;
+        $this->fragment=$fragment;
     }
     public function getScheme(){
-        return (string)$this->uri["scheme"];
+        return (string)$this->scheme;
     }
     public function getHost(){
-        return (string)$this->uri["host"];
+        return (string)$this->host;
     }
     public function getUserInfo(){
-        $user=(string)$this->uri["user"];
-        if(isset($this->uri["pass"])) $user.=":{$this->uri["pass"]}";
-        return $user;
+        return (string)$this->user;
     }
     public function getPort(){
-        return isset($this->uri["port"])?intval($this->uri["port"]):NULL;
+        return isset($this->port)?intval($this->port):NULL;
     }
     public function getPath(){
-        return (string)$this->uri["path"];
+        return (string)$this->path;
     }
     public function getQuery(){
-        return (string)$this->uri["query"];
+        return (string)$this->query;
     }
     public function getFragment(){
-        return (string)$this->uri["fragment"];
+        return (string)$this->fragment;
     }
-    public function buildUri($scheme,$user,$host,$prot,$path,$query,$fragment){
+    public function __toString(){
         $url="";
-        if($scheme!="") $url="{$scheme}://";
-        if($user!="") $url.="{$user}@";
-        if($host!="") $url.=$host;
-        if($port!="") $url.=":{$port}";
-        if($path!="") $url.="{$path}";
-        if($query!="") $url.="{$query}";
-        if($fragment!="") $url.="#{$fragment}";
+        if($this->scheme!="") $url="{$this->scheme}://";
+        if($this->user!="") $url.="{$this->user}@";
+        if($this->host!="") $url.=$this->host;
+        if($this->port!="") $url.=":{$this->port}";
+        if($this->path!="") $url.=$this->path;
+        if($this->query!="") $url.="?{$this->query}";
+        if($this->fragment!="") $url.="#{$this->fragment}";
         return $url;
     }
     public function withScheme($scheme){
-        return new Uri($this->buildUri(
-            $scheme,
-            $this->getUserInfo(),
-            $this->getHost(),
-            $this->getPort(),
-            $this->getPath(),
-            $this->getQuery(),
-            $this->getFragment()
-        ));
+        $uri=clone $this;
+        $uri->scheme=$scheme;
+        return $uri;
     }
     public function withUserInfo($user,$password=NULL){
         $user=(string)$this->uri["user"];
         if(isset($this->uri["pass"])) $user.=":{$this->uri["pass"]}";
-        return new Uri($this->buildUri(
-            $this->getScheme(),
-            $user,
-            $this->getHost(),
-            $this->getPort(),
-            $this->getPath(),
-            $this->getQuery(),
-            $this->getFragment()
-        ));
+        $uri=clone $this;
+        $uri->user=$user;
+        return $uri;
     }            
     public function withHost($host){
-        return new Uri($this->buildUri(
-            $this->getScheme(),
-            $this->getUserInfo(),
-            $host,
-            $this->getPort(),
-            $this->getPath(),
-            $this->getQuery(),
-            $this->getFragment()
-        ));
+        $uri=clone $this;
+        $uri->host=$host;
+        return $uri;
     }
     public function withPort($port){
-        return new Uri($this->buildUri(
-            $this->getScheme(),
-            $this->getUserInfo(),
-            $this->getHost(),
-            $port
-            $this->getPath(),
-            $this->getQuery(),
-            $this->getFragment()
-        ));
+        $uri=clone $this;
+        $uri->port=$port;
+        return $uri;
     }
     public function withPath($path){
-        return new Uri($this->buildUri(
-            $this->getScheme(),
-            $this->getUserInfo(),
-            $this->getHost(),
-            $this->getPort(),
-            $path,
-            $this->getQuery(),
-            $this->getFragment()
-        ));
+        $uri=clone $this;
+        $uri->path=$path;
+        return $uri;
     }
     public function withQuery($query){
-        return new Uri($this->buildUri(
-            $this->getScheme(),
-            $this->getUserInfo(),
-            $this->getHost(),
-            $this->getPort(),
-            $this->getPath(),
-            $query,
-            $this->getFragment()
-        ));
+        $uri=clone $this;
+        $uri->query=$query;
+        return $uri;
     }
     public function withFragment($fragment){
-        return new Uri($this->buildUri(
-            $this->getScheme(),
-            $this->getUserInfo(),
-            $this->getHost(),
-            $this->getPort(),
-            $this->getPath(),
-            $this->getQuery(),
-            $fragment
-        ));
-    }
-    public function _toString(){
-        return $this->buildUrl(
-            $this->getScheme(),
-            $this->getUserInfo(),
-            $this->getHost(),
-            $this->getPort(),
-            $this->getPath(),
-            $this->getQuery(),
-            $this->getFragment()
-        );
+        $uri=clone $this;
+        $uri->fragment=$fragment;
+        return $uri;
     }
 }

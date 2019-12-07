@@ -70,14 +70,14 @@ class Response implements ResponseInterface{
         $status,
         $headers,
         StreamInterface $body,
-        $reason=NULl
+        $reason=NULL
     ){
         $this->version=$version;
         $this->status=($status instanceof integer)?$status:intval($status);
         $this->reason=isset($reason)?$reason:self::REASONS[$this->status];
-        $this->header=array();
+        $this->headers=array();
         foreach($headers as $name=>$value){
-            $this->withHeader($name,$value);
+            $this->headers[$name]=($value instanceof array)?$value:explode(",",$value);
         }
         $this->body=$body;
     }
@@ -85,13 +85,9 @@ class Response implements ResponseInterface{
         return $this->version;
     }
     public function withProtocolVersion($version){
-        return new Response(
-            $version,
-            $this->status,
-            $this->headers,
-            $this->body,
-            $this->reason
-        );
+        $response=clone $this;
+        $response->version=$version;
+        return $response;
     }
     public function getHeaders(){
         return $this->headers;
@@ -106,68 +102,49 @@ class Response implements ResponseInterface{
         return "{$name}:".$this->getHeader($name);
     }
     public function withHeader($name,$value){
+        $response=clone $this;
         $headers=$this->getHeaders();
         if($value instanceof string){
             $value=explode(",",$value);
         }
         $headers[$name]=$value;
-        return new Response(
-            $this->version,
-            $this->status,
-            $headers,
-            $this->body,
-            $this->reason
-        );
+        $response->headers=$headers;
+        return $response;
     }
     public function withAddedHeader($name,$value){
+        $response=clone $this;
         $headers=$this->getHeaders();
         if(empty($headers[$name])){
             $headers[$name]=array();
         }
         array_push($headers[$name],$value);
-        return new Response(
-            $this->version,
-            $this->status,
-            $headers,
-            $this->body,
-            $this->reason
-        );
+        $response->headers=$headers;
+        return $response;
     }
     public function withoutHeader($name){
+        $response=clone $this;
         $headers=$this->getHeaders();
         unset($headers[$name]);
-        return new Response(
-            $this->version,
-            $this->status,
-            $headers,
-            $this->body,
-            $this->reason
-        );
+        $response->headers=$headers;
+        return $response;
     }
     public function getBody(){
         return $this->body;
     }
     public function withBody(StreamInterface $body){
-        return new Response(
-            $this->version,
-            $this->status,
-            $this->headers,
-            $body,
-            $this->reason
-        );
+        $response=clone $this;
+        $response->body=$body;
+        return $response;
     }
     public function getStatusCode(){
         return $this->status;
     }
     public function withStatus($code,$reason=""){
+        $response=clone $this;
+        $response->status=$code;
         if($reason=="") $reason=self::REASONS[$code];
-        return new Response(
-            $this->version,
-            $code,
-            $this->headers,
-            $this->body,
-            $reason
-        );
+        $response->reason=$reason;
+        return $response;
     }
     public function getReasonPhrase(){
         retun $this->reason;

@@ -4,12 +4,11 @@ namespace Boke0\Clavicle;
 use \Psr\Http\Message\StreamInterface;
 
 class Stream implements SteamInterface{
-    public function __construct($uri){
-        $this->stream=$uri;
-        $this->fp=fopen($this->stream);
+    public function __construct($stream){
+        $this->fp=$stream;
     }
     public function _toString(){
-        return file_get_contents($this->stream);
+        return stream_get_contents($this->stream);
     }
     public function close(){
         fclose($this->fp);
@@ -17,11 +16,11 @@ class Stream implements SteamInterface{
     public function detach(){
         $result=$this->fp;
         unset($this->fp);
-        $this->stream=NULL;
         return $result
     }
     public function getSize(){
-        return filesize($this->stream);
+        if(empty($this->size)) $this->size=fstat($this->fp)->size;
+        return $this->size;
     }
     public function tell(){
         return ftell($this->fp);
@@ -57,9 +56,12 @@ class Stream implements SteamInterface{
         return fread($this->fp,$length);
     }
     public function getContents(){
-        return stream_get_contents($this->fp);
+        $data=fpassthru($this->fp);
+        rewind($this->fp);
+        return $data;
     }
     public function getMetadata($key=NULL){
-        return stream_get_meta_data($this->fp);
+        if(empty($this->meta)) $this->meta=stream_get_meta_data($this->fp);
+        return isset($key)?$this->meta->$key:$this->meta;
     }
 }

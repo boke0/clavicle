@@ -4,7 +4,6 @@ namespace Boke0;
 use \Psr\Http\Message\RequestInterface;
 use \Psr\Http\Message\StreamInterface;
 use \Psr\Http\Message\UriInterface;
-use 
 
 class Request implements RequestInterface{
     public function __construct(
@@ -17,7 +16,7 @@ class Request implements RequestInterface{
         $this->version=$version;
         $this->method=strtoupper($method);
         $this->uri=($uri instanceof UriInterface)?$uri:new Uri($uri);
-        $this->headers=[];
+        $this->headers=array();
         foreach($headers as $name=>$value){
             $this->headers[$name]=($value instanceof array)?$value:explode(",",$value);
         }
@@ -27,13 +26,9 @@ class Request implements RequestInterface{
         return $this->version; 
     }
     public function withProtocolVersion($version){
-        return new Request(
-            $version,
-            $this->method,
-            $this->uri,
-            $this->headers,
-            $this->body
-        );
+        $request=clone $this;
+        $request->version=$version;
+        return $request;
     }
     public function getHeaders(){
         return $this->headers;
@@ -48,54 +43,38 @@ class Request implements RequestInterface{
         return "{$name}:".$this->getHeader($name);
     }
     public function withHeader($name,$value){
+        $request=clone $this;
         if($value instanceof string){
             $value=explode(",",$value);
         }
         $headers=$this->getHeaders();
         $headers[$name]=$value;
-        return new Request(
-            $this->protocol,
-            $this->method,
-            $headers,
-            $this->uri,
-            $this->body
-        );
+        $request->headers=$headers;
+        return $request;
     }
     public function withAddedHeader($name,$value){
+        $request=clone $this;
         $headers=$this->getHeaders();
         if(empty($headers[$name])){
             $headers[$name]=array();
         }
         array_push($headers[$name],$value);
-        return new Request(
-            $this->version,
-            $this->method,
-            $headers,
-            $this->uri,
-            $this->body
-        );
+        $request->headers=$headers;
+        return $request;
     }
     public function withoutHeader($name){
+        $request=clone $this;
         $headers=$this->getHeaders();
         unset($headers[$name]);
-        return new Request(
-            $this->version,
-            $this->method,
-            $headers,
-            $this->uri,
-            $this->body
-        );
+        $request->headers=$headers;
+        return $request;
     }
     public function getBody(){
         return $this->body;
     }
     public function withBody(StreamInterface $body){
-        return new Request(
-            $this->version,
-            $this->method,
-            $this->headers,
-            $this->uri,
-            $body
-        );
+        $request=clone $this;
+        $request->body=$body;
+        return $request;
     }
 } 
