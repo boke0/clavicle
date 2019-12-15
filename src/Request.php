@@ -1,6 +1,6 @@
 <?php
 
-namespace Boke0;
+namespace Boke0\Clavicle;
 use \Psr\Http\Message\RequestInterface;
 use \Psr\Http\Message\StreamInterface;
 use \Psr\Http\Message\UriInterface;

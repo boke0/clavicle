@@ -2,7 +2,7 @@
 
 namespace Boke0\Clavicle;
 
-use \Psr\Http\Message;
+use \Psr\Http\Message\UriInterface;
 
 class Uri implements UriInterface{
     public function __construct($scheme,$host,$user,$port,$path,$query,$fragment){

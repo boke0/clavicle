@@ -19,8 +19,7 @@
     "minimum-stability": "stable",
     "autoload":{
         "psr-4":{
-            "Boke0\\Clavicle\\":"src/",
-            "Boke0\\Clavicle\\Test\\":"test/"
+            "Boke0\\Clavicle\\":"src/"
         }
     }
 }
