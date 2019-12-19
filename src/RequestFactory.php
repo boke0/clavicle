@@ -6,11 +6,10 @@ use \Psr\Http\Message\StreamFactoryInterface;
 
 class RequestFactory implements RequestFactoryInterface{
     public function __construct(
-        StreamFactoryInterface $streamFactory=new StreamFactory(),
         $version="1.1"
     ){
         $this->version=$version;
-        $this->streamFactory=$streamFactory;
+        $this->streamFactory=new StreamFactory();
     }
     public function createRequest(string $method,$uri): RequestInterface{
         $body=$this->streamFactory->createStreamFromFile("php://input","r");

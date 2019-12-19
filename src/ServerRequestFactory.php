@@ -7,10 +7,9 @@ use \Psr\Http\Message\StreamFactoryInterface;
 
 class ServerRequestFactory extends ServerRequestFactory{
     public function __construct(
-        StreamFactoryInterface $streamFactory=new StreamFactory(),
         $version="1.1"
     ){
-        $this->streamFactory=$streamFactory;
+        $this->streamFactory=new StreamFactory();
         $this->version=$version;
     }
     public function createServerRequest(string $method,$uri,array $serverParams=[]): ServerRequestInterface{
