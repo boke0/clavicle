@@ -7,7 +7,8 @@ use \Psr\Http\Message\StreamInterface;
 class StreamFactory implements StreamFactoryInterface{
     public function createStream(string $content=""): StreamInterface{
         $fp=fopen("php://temp","w+");
-        return new Stream(fp)->write($content);
+        $stream=new Stream(fp);
+        return $stream->write($content);
     }
     public function createStreamFromFile(string $filename,string $mode="r"): StreamInterface{
         $fp=fopen($filename,$mode);
