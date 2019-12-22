@@ -12,7 +12,7 @@ class ResponseFactory implements ResponseFactoryInterface{
         $this->version=$vesion;
         $this->streamFactory=new StreamFactory();
     }
-    public function createResponse(int $code=200,string $reason=""): ResponseInterafce{
+    public function createResponse(int $code=200,string $reason=""): ResponseInterface{
         $body=$this->streamFactory->createStreamFromFile("php://output","w+");
         return new Response(
             $this->version,
