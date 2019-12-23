@@ -77,7 +77,7 @@ class Response implements ResponseInterface{
         $this->reason=isset($reason)?$reason:self::REASONS[$this->status];
         $this->headers=array();
         foreach($headers as $name=>$value){
-            $this->headers[$name]=($value instanceof array)?$value:explode(",",$value);
+            $this->headers[$name]=is_array($value)?$value:explode(",",$value);
         }
         $this->body=$body;
     }

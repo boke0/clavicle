@@ -18,7 +18,7 @@ class Request implements RequestInterface{
         $this->uri=($uri instanceof UriInterface)?$uri:new Uri($uri);
         $this->headers=array();
         foreach($headers as $name=>$value){
-            $this->headers[$name]=($value instanceof array)?$value:explode(",",$value);
+            $this->headers[$name]=is_array($value)?$value:explode(",",$value);
         }
         $this->body=$body;
     }
