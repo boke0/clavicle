@@ -1,6 +1,7 @@
 <?php
 
 namespace Boke0\Clavicle;
+use \Psr\Http\Message\StreamInterface;
 
 trait Message{
     public function getProtocolVersion(){
