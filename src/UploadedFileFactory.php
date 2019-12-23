@@ -3,6 +3,7 @@
 namespace Boke0\Clavicle;
 use \Psr\Http\Message\UploadedFileFactoryInterface;
 use \Psr\Http\Message\UploadedFileInterface;
+use \Psr\Http\Message\StreamInterface;
 
 class UploadedFileFactory implements UploadedFileFactoryInterface{
     public function createUploadedFile(
