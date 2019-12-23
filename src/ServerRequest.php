@@ -39,7 +39,7 @@ class ServerRequest extends Request implements ServerRequestInterface{
     public function withParsedBody($data){
         if($data instanceof object){
             $data=(array)$data;
-        }else if(isset($data)&&!$data instanceof array){
+        }else if(isset($data)&&!is_array($data)){
             throw new \InvalidArgumentException("Unsupported type of data");
         }
         $this->parsedBody=$data;
