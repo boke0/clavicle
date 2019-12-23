@@ -16,7 +16,20 @@ class Request implements RequestInterface{
     ){
         $this->version=$version;
         $this->method=strtoupper($method);
-        $this->uri=($uri instanceof UriInterface)?$uri:new Uri($uri);
+        if($uri instanceof UriInterface){
+            $parsed=parse_url($uri);
+            $user=isset($parsed["pass"])?"{$parsed["user"]}:{$parsed["pass"]}":$parsed["user"];
+            $uri=new Uri(
+                $parsed["scheme"],
+                $user,
+                $parsed["host"],
+                $parsed["port"],
+                $parsed["path"],
+                $parsed["query"],
+                $parsed["fragment"]
+            );
+        }
+        $this->uri=$uri;
         $this->headers=array();
         foreach($headers as $name=>$value){
             $this->headers[$name]=is_array($value)?$value:explode(",",$value);
