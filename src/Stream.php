@@ -56,7 +56,7 @@ class Stream implements StreamInterface{
         return fread($this->fp,$length);
     }
     public function getContents(){
-        $data=fpassthru($this->fp);
+        $data=stream_get_contents($this->fp);
         if($this->isSeekable()) $this->rewind();
         return $data;
     }
