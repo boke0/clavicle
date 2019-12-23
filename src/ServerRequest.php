@@ -178,7 +178,9 @@ class ServerRequest extends Request implements ServerRequestInterface{
         }else if(isset($data)&&!is_array($data)){
             throw new \InvalidArgumentException("Unsupported type of data");
         }
-        $this->parsedBody=$data;
+        $serverRequest=clone $this;
+        $serverRequest->parsedBody=$data;
+        return $serverRequest;
     }
     /**
      * Retrieve attributes derived from the request.
