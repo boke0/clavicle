@@ -7,7 +7,7 @@ class Stream implements StreamInterface{
     public function __construct($stream){
         $this->fp=$stream;
     }
-    public function _toString(){
+    public function __toString(){
         return stream_get_contents($this->stream);
     }
     public function close(){
