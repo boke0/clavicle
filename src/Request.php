@@ -16,7 +16,7 @@ class Request implements RequestInterface{
     ){
         $this->version=$version;
         $this->method=strtoupper($method);
-        if($uri instanceof UriInterface){
+        if(!$uri instanceof UriInterface){
             $parsed=parse_url($uri);
             $user=isset($parsed["pass"])?"{$parsed["user"]}:{$parsed["pass"]}":$parsed["user"];
             $uri=new Uri(
