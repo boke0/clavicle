@@ -6,6 +6,7 @@ use \Psr\Http\Message\StreamInterface;
 use \Psr\Http\Message\UriInterface;
 
 class Request implements RequestInterface{
+    use Message;
     public function __construct(
         $version,
         string $method,
@@ -22,59 +23,32 @@ class Request implements RequestInterface{
         }
         $this->body=$body;
     }
-    public function getProtocolVersion(){
-        return $this->version; 
+    public function getRequestTarget(){
+        return $this->requetTarget;
     }
-    public function withProtocolVersion($version){
+    public function withRequestTarget($target){
         $request=clone $this;
-        $request->version=$version;
+        $request->requestTarget=$target;
         return $request;
     }
-    public function getHeaders(){
-        return $this->headers;
+    public function getMethod(){
+        return $this->method;
     }
-    public function hasHeader($name){
-        return isset($this->headers[$name]);
-    }
-    public function getHeader($name){
-        return implode(",",(array)$this->headers[$name]);
-    }
-    public function getHeaderLine($name){
-        return "{$name}:".$this->getHeader($name);
-    }
-    public function withHeader($name,$value){
+    public function withMethod($method){
         $request=clone $this;
-        if($value instanceof string){
-            $value=explode(",",$value);
+        $request->method=$method;
+        return $request;
+    }
+    public function getUri(){
+        return $this->uri;
+    }
+    public function withUri(UriInterface $uri,$preserverHost=false){
+        $request=clone $this;
+        $request->uri=$uri;
+        if($preserveHost){
+            return $request;
+        }else{
+            return $request->withHeader("Host",$uri->getHost());
         }
-        $headers=$this->getHeaders();
-        $headers[$name]=$value;
-        $request->headers=$headers;
-        return $request;
-    }
-    public function withAddedHeader($name,$value){
-        $request=clone $this;
-        $headers=$this->getHeaders();
-        if(empty($headers[$name])){
-            $headers[$name]=array();
-        }
-        array_push($headers[$name],$value);
-        $request->headers=$headers;
-        return $request;
-    }
-    public function withoutHeader($name){
-        $request=clone $this;
-        $headers=$this->getHeaders();
-        unset($headers[$name]);
-        $request->headers=$headers;
-        return $request;
-    }
-    public function getBody(){
-        return $this->body;
-    }
-    public function withBody(StreamInterface $body){
-        $request=clone $this;
-        $request->body=$body;
-        return $request;
     }
 } 
