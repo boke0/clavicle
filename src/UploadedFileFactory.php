@@ -4,7 +4,7 @@ namespace Boke0\Clavicle;
 use \Psr\Http\Message\UploadedFileFactoryInterface;
 use \Psr\Http\Message\UploadedFileInterface;
 
-class UploadedFileFactory extends UploadedFileFactoryInterface{
+class UploadedFileFactory implements UploadedFileFactoryInterface{
     public function createUploadedFile(
         StreamInterface $stream,
         int $size=NULL,
