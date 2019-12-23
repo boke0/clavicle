@@ -16,7 +16,7 @@ class Stream implements SteamInterface{
     public function detach(){
         $result=$this->fp;
         unset($this->fp);
-        return $result
+        return $result;
     }
     public function getSize(){
         if(empty($this->size)) $this->size=fstat($this->fp)->size;
