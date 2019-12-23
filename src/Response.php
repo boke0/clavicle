@@ -94,7 +94,7 @@ class Response implements ResponseInterface{
     }
 
     public function getReasonPhrase(){
-        retun $this->reason;
+        return $this->reason;
     }
 }
 
