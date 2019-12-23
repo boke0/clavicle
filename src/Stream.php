@@ -57,7 +57,7 @@ class Stream implements StreamInterface{
     }
     public function getContents(){
         $data=fpassthru($this->fp);
-        rewind($this->fp);
+        if($this->isSeekable()) $this->rewind();
         return $data;
     }
     public function getMetadata($key=NULL){
