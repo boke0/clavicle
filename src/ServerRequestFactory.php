@@ -5,7 +5,7 @@ use \Psr\Http\Message\ServerRequestFactoryInterface;
 use \Psr\Http\Message\ServerRequestInterface;
 use \Psr\Http\Message\StreamFactoryInterface;
 
-class ServerRequestFactory extends ServerRequestFactory{
+class ServerRequestFactory implements ServerRequestFactoryInterface{
     public function __construct(
         $version="1.1"
     ){
