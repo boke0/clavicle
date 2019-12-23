@@ -3,7 +3,7 @@
 namespace Boke0\Clavicle;
 use \Psr\Http\Message\StreamInterface;
 
-class Stream implements SteamInterface{
+class Stream implements StreamInterface{
     public function __construct($stream){
         $this->fp=$stream;
     }
