@@ -13,7 +13,7 @@ class ResponseFactory implements ResponseFactoryInterface{
         $this->streamFactory=new StreamFactory();
     }
     public function createResponse(int $code=200,string $reason=""): ResponseInterface{
-        $body=$this->streamFactory->createStreamFromFile("php://output","w+");
+        $body=$this->streamFactory->createStream();
         return new Response(
             $this->version,
             $code,
