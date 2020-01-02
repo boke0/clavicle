@@ -6,6 +6,23 @@ use \Psr\Http\Message\StreamInterface;
 use \Psr\Http\Message\UriInterface;
 
 class ServerRequest extends Request implements ServerRequestInterface{
+    public function __construct(
+        $version,
+        $method,
+        $uri,
+        $header,
+        $body,
+        $serverParams
+    ){
+        parent::__construct(
+            $version,
+            $method,
+            $uri,
+            $header,
+            $body
+        );
+        $this->serverParams=$serverParams;
+    }
     /**
      * Retrieve server parameters.
      *
