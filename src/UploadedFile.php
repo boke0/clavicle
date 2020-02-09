@@ -3,22 +3,22 @@
 namespace Boke0\Clavicle;
 use \Psr\Http\Message\UploadedFileInterface;
 use \Psr\Http\Message\StreamFactoryInterface;
+use \Psr\Http\Message\StreamInterface;
 
 class UploadedFile implements UploadedFileInterface{
     public function __construct(
-        StreamFactoryInterface $streamFactory=new StreamFactory(),
         StreamInterface $stream,
         int $size=NULL,
         int $error=\UPLOADED_ERR_OK,
         string $clientFilename=NULL,
-        string $clientMediaType=NULL,
+        string $clientMediaType=NULL
     ){
+        $this->streamFactory=new StreamFactory();
         $this->stream=$stream;
         $this->size=$size;
         $this->error=$error;
         $this->clientFilename=$clientFilename;
         $this->clientMediaType=$clientMediaType;
-        $this->streamFactory=$streamFactory;
     }
     public function getStream(){
         return $this->stream;
