@@ -24,8 +24,8 @@ class UploadedFile implements UploadedFileInterface{
         return $this->stream;
     }
     public function moveTo($target){
-        $content=$this->stream->getStream();
-        $stream=$this->streamFactory->createStreamFromFile($target);
+        $content=$this->stream->getContents();
+        $stream=$this->streamFactory->createStreamFromFile($target,"w");
         $stream->write($content);
         $stream->close();
     }
